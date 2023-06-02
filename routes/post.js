@@ -1,6 +1,8 @@
 import express from 'express';
 import multer from 'multer';
 import verifyToken from '../middleware/verifyToken.js';
+import unlinkPath from '../middleware/unlinkPath.js';
+
 import {
     createPostController,
     deletePostController,
@@ -26,6 +28,6 @@ router.get('/all',verifyToken , allPostController);
 router.get('/post/:postId' , verifyToken,postController);
 router.post("/create" ,verifyToken , upload.single('image') , createPostController);
 router.delete("/delete/:id" , verifyToken , deletePostController); 
-router.put("/update/:id" , verifyToken, upload.single('image') , updatePostController);
+router.post("/update/:id" , verifyToken ,upload.single('image') ,unlinkPath , updatePostController);
 
 export default router;

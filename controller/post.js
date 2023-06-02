@@ -191,23 +191,9 @@ export const updatePostController = async (req,res) => {
         const file = req.file;
 
         const findPost = await postSchema.findOne({ _id:id });
-        const path = `uploads/${findPost.image}`;
 
-        if(file) {
-            fs.unlink(path , function(err) {
-                if(err)  {
-                    return res.status(500).json({
-                        message:err,
-                        status:'error',
-                        statusCode:500
-                    });
-                }
-            });
-        }
-
-        findPost.title = title;
         findPost.caption = caption;
-        findPost.image = file.originalname;
+        findPost.image = file ? file.originalname : findPost.image;
  
         const saved = await findPost.save();
 
